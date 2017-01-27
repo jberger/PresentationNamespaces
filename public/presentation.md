@@ -4,7 +4,9 @@
 
 ---
 
-## TODO historical data
+* I first gave this talk at Chicago.pm on January 26, 2017
+* The talk is hosted at <https://jberger.github.io/PresentationNamespaces>
+* The source is available at <https://github.com/jberger/PresentationNamespaces>
 
 ---
 
@@ -501,7 +503,7 @@ sub run_query {
 
 # t/database.t
 
-local *MyApp::Database = sub {
+local *MyApp::Database::run_query = sub {
   return $known_result
 }
 
