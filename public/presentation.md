@@ -61,15 +61,14 @@ sub print_kitten_name {
   print "$kitten\n";
 }
 
-print_kitten_name();
+print_kitten_name(); # Buttons
 change_kitten_name();
 print_kitten_name(); # Rufus
 ```
 
 ---
 
-> packages are for finding things,</br>
-> scopes are for hiding things
+> packages are for finding things, ...
 
 -- [Tom Christiansen](http://stackoverflow.com/questions/7523757/is-it-a-design-flaw-that-perl-subs-arent-lexically-scoped#comment9145532_7534272)
 
@@ -101,7 +100,7 @@ print_person_name(); # Buttons (uh oh!)
 
 ## Prefixes
 
-Variables can be "prefixed"
+Naively, variables can be "prefixed"
 
 ```perl
 sub set_person_name {
@@ -125,7 +124,7 @@ print_person_name(); # Joel
 
 ## Namespaces
 
-Variables can be "namespaced"
+Better, variables can be "namespaced"
 
 ```perl
 sub set_person_name {
