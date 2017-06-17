@@ -5,6 +5,7 @@
 ---
 
 * I first gave this talk at Chicago.pm on January 26, 2017
+* I last updated it for The Perl Conference, June 19, 2017
 * The talk is hosted at <https://jberger.github.io/PresentationNamespaces>
 * The source is available at <https://github.com/jberger/PresentationNamespaces>
 
@@ -47,8 +48,8 @@ $kitten = 'Buttons';
 
 As important as what it holds
 
-* what code can see it (scope)
 * how do you find it (namespace, package, symbol)
+* what code can see it (scope)
 
 ```perl
 $kitten = 'Buttons';
