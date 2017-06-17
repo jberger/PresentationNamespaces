@@ -252,17 +252,19 @@ print "$Person::name owns $Kitten::name\n";
 ## Privacy (better example)
 
 ```perl
-sub concat {
-  $tmp = join '',  @_;
-  return $tmp;
-}
+@items = (qw/hi hello hippo/);
+for $item (@items) {
+  $upper = upper($item);
+  print "$item becomes $upper\n";
+};
 
-for $tmp (1..3) {
-  print concat(concat($tmp, $tmp), $tmp) . "\n";
+sub upper {
+  $item = uc $_[0];
+  return $item;
 }
-# 1111
-# 2222
-# 3333
+# HI becomes HI
+# HELLO becomes HELLO
+# HIPPO becomes HIPPO
 ```
 
 ---
@@ -272,17 +274,19 @@ for $tmp (1..3) {
 Only visible within a "block" ```{  }``` or "scope"
 
 ```perl
-sub concat {
-  my $tmp = join '',  @_;
-  return $tmp;
-}
+@items = (qw/hi hello hippo/);
+for my $item (@items) {
+  $upper = upper($item);
+  print "$item becomes $upper\n";
+};
 
-for my $tmp (1..3) {
-  print concat(concat($tmp, $tmp), $tmp) . "\n";
+sub upper {
+  my $item = uc $_[0];
+  return $item;
 }
-# 111
-# 222
-# 333
+# hi becomes HI
+# hello becomes HELLO
+# hippo becomes HIPPO
 ```
 
 ---
