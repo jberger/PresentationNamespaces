@@ -2,7 +2,7 @@ use Mojolicious::Lite;
 
 plugin 'RevealJS';
 
-any '/' => 'shell';
+any '/' => {template => 'shell', title => 'Variables, Scoping, and Namespaces'};
 
 app->start;
 
