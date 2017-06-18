@@ -4,10 +4,14 @@
 
 ---
 
-* I first gave this talk at Chicago.pm on January 26, 2017
-* I last updated it for The Perl Conference, June 19, 2017
-* The talk is hosted at <https://jberger.github.io/PresentationNamespaces>
-* The source is available at <https://github.com/jberger/PresentationNamespaces>
+* I first gave this talk:
+  - Chicago.pm on January 26, 2017
+* I last updated it:
+  - The Perl Conference, June 19, 2017
+* The talk is hosted at:
+  - <https://jberger.github.io/PresentationNamespaces>
+* The source is available
+  - <https://github.com/jberger/PresentationNamespaces>
 
 ---
 
@@ -15,7 +19,7 @@
 
 * This talk doesn't use strict/warnings
 * You should ALWAYS use them
-* This talk will actually teach you why :P
+* This talk will actually teach you (partly) why :P
 
 ---
 
@@ -48,24 +52,20 @@ $kitten = 'Buttons';
 
 As important as what it holds
 
-* how do you find it (namespace, package, symbol)
-* what code can see it (scope)
-
 ```perl
 $kitten = 'Buttons';
 
-sub change_kitten_name {
-  $kitten = 'Rufus';
-}
+sub change_kitten_name { $kitten = 'Rufus' }
 
-sub print_kitten_name {
-  print "$kitten\n";
-}
+sub print_kitten_name  { print "$kitten\n" }
 
 print_kitten_name(); # Buttons
 change_kitten_name();
 print_kitten_name(); # Rufus
 ```
+
+* how do you find it (namespace, package, symbol)
+* what code can see it (scope)
 
 ---
 
@@ -80,17 +80,11 @@ print_kitten_name(); # Rufus
 What if two pieces of code want to use the same variable?
 
 ```perl
-sub set_person_name {
-  $name = 'Joel';
-}
+sub set_person_name   { $name = 'Joel' }
 
-sub print_person_name {
-  print "$name\n";
-}
+sub print_person_name { print "$name\n" }
 
-sub set_kitten_name {
-  $name = 'Buttons';
-}
+sub set_kitten_name   { $name = 'Buttons' }
 
 set_person_name();
 set_kitten_name();
@@ -104,17 +98,11 @@ print_person_name(); # Buttons (uh oh!)
 Naively, variables can be "prefixed"
 
 ```perl
-sub set_person_name {
-  $person_name = 'Joel';
-}
+sub set_person_name   { $person_name = 'Joel' }
 
-sub print_person_name {
-  print "$person_name\n";
-}
+sub print_person_name { print "$person_name\n" }
 
-sub set_kitten_name {
-  $kitten_name = 'Buttons';
-}
+sub set_kitten_name   { $kitten_name = 'Buttons' }
 
 set_person_name();
 set_kitten_name();
@@ -128,17 +116,11 @@ print_person_name(); # Joel
 Better, variables can be "namespaced"
 
 ```perl
-sub set_person_name {
-  $Person::name = 'Joel';
-}
+sub set_person_name   { $Person::name = 'Joel' }
 
-sub print_person_name {
-  print "$Person::name\n";
-}
+sub print_person_name { print "$Person::name\n" }
 
-sub set_kitten_name {
-  $Kitten::name = 'Buttons';
-}
+sub set_kitten_name   { $Kitten::name = 'Buttons' }
 
 set_person_name();
 set_kitten_name();
@@ -152,17 +134,11 @@ print_person_name(); # Joel
 Actually, functions can too!
 
 ```perl
-sub Person::set_name {
-  $Person::name = 'Joel';
-}
+sub Person::set_name   { $Person::name = 'Joel' }
 
-sub Person::print_name {
-  print "$Person::name\n";
-}
+sub Person::print_name { print "$Person::name\n" }
 
-sub Kitten::set_name {
-  $Kitten::name = 'Buttons';
-}
+sub Kitten::set_name   { $Kitten::name = 'Buttons' }
 
 Person::set_name();
 Kitten::set_name();
@@ -181,21 +157,16 @@ Person::print_name(); # Joel
 
 ```perl
 package Person;
-sub set_name {
-  $name = 'Joel';
-}
+sub set_name   { $name = 'Joel' }
 
-sub print_name {
-  print "$name\n";
-}
+sub print_name { print "$name\n" }
 
 package Kitten;
-sub set_name {
-  $name = 'Buttons';
-}
+sub set_name   { $name = 'Buttons' }
 
 package main;
-Person::set_name(); Kitten::set_name();
+Person::set_name();
+Kitten::set_name();
 Person::print_name(); # Joel
 ```
 
@@ -221,9 +192,9 @@ print "$Person::name owns $Kitten::name\n";
 
 All of the package symbols are stored in a giant hash.
 
-* The symbol table hash, or stash
-* Represented with trailing colons:
+* The symbol table hash, or "stash"
 * Not directly used very often!
+* Represented with trailing colons:
 
 ```perl
 use Data::Dumper;
@@ -253,7 +224,7 @@ print "$Person::name owns $Kitten::name\n";
 ## Privacy (better example)
 
 ```perl
-@items = (qw/hi hello hippo/);
+@items = (qw[hi hello hippo]);
 for $item (@items) {
   $upper = upper($item);
   print "$item becomes $upper\n";
@@ -294,11 +265,13 @@ sub upper {
 
 ## Lexicals
 
-* prevent clobbering/overwriting (intentional or accidental)
+* prevent clobbering/overwriting
+  - (intentional or accidental)
 * prevent reading by other code
 * not bound to ANY namespace
   - cannot be accessed with fully qualified name
   - are not in the stash
+* bound to a scope
 
 ---
 
@@ -324,7 +297,7 @@ sub upper {
   sub name { return $name }
 }
 
-package main; # actually this isn't necessary
+package main;
 print Person::name() . ' owns ' . Kitten::name() . "\n";
 # Joel owns Buttons
 ```
@@ -335,6 +308,49 @@ print Person::name() . ' owns ' . Kitten::name() . "\n";
 
 * A block: `{ }`
 * A file (if not within a block)
+
+---
+
+## Package keyword is lexically scoped
+
+```perl
+{
+  package Person;
+  my $name = 'Joel';
+  sub name { return $name }
+}
+
+{
+  package Kitten;
+  my $name = 'Buttons';
+  sub name { return $name }
+}
+
+package main; # actually this isn't necessary
+print Person::name() . ' owns ' . Kitten::name() . "\n";
+# Joel owns Buttons
+```
+
+---
+
+## Package keyword is lexically scoped
+
+```perl
+{
+  package Person;
+  my $name = 'Joel';
+  sub name { return $name }
+}
+
+{
+  package Kitten;
+  my $name = 'Buttons';
+  sub name { return $name }
+}
+
+print Person::name() . ' owns ' . Kitten::name() . "\n";
+# Joel owns Buttons
+```
 
 ---
 
@@ -360,15 +376,16 @@ print Person::name() . ' owns ' . Kitten::name() . "\n";
 
 * Yes! This is what `use strict` does!
 * `use strict 'vars'` requires declaring all variables.
+* The rest of this talk is strict safe
 
 ---
 
 ## How do I create/access a global under strict?
 
-* `our` keyword
-  - `package Kitten; our $name`
 * fully qualified name
   - `$Kitten::name`
+* `our` keyword
+  - `package Kitten; our $name`
 
 ---
 
@@ -377,18 +394,17 @@ print Person::name() . ' owns ' . Kitten::name() . "\n";
 A lexical alias to a package variable
 
 ```perl
-use strict;
-
 {
   package Kitten;
   my $name = 'Buttons';
   my $owner = 'Joel';
   our $caretaker = $owner;
-  sub info { "$owner owns $name, who is cared for by $caretakter" }
+  sub info { "$owner owns $name, cared for by $caretakter" }
 }
 
-$Kitten::caretaker = 'Doug'; # Doug helps out
-print Kitten::info();
+print Kitten::info(); # Joel owns Buttons, cared for by Joel
+$Kitten::caretaker = 'Doug';
+print Kitten::info(); # Joel owns Buttons, cared for by Doug
 ```
 
 ---
@@ -398,15 +414,13 @@ print Kitten::info();
 The alias is lexical, the effect is global
 
 ```perl
-use strict;
-
 package Kitten;
 our $caretaker;
 {
   my $name = 'Buttons';
   my $owner = 'Joel';
   $caretaker = $owner;
-  sub info { "$owner owns $name, who is cared for by $caretakter" }
+  sub info { "$owner owns $name, cared for by $caretakter" }
 }
 
 package main;
@@ -426,28 +440,32 @@ The `local` keyword sets a global
 ---
 
 ```perl
-use strict;
-
 {
   package Kitten;
   my $name = 'Buttons';
   my $owner = 'Joel';
   our $caretaker = $owner;
-  sub info { "$owner owns $name, who is cared for by $caretakter" }
+  sub info { "$owner owns $name, cared for by $caretakter" }
 }
 
 {
   local $Kitten::caretaker = 'Doug';
-  print Kitten::info(); # Doug helps out here
+  print Kitten::info(); # Joel owns Buttons, cared for by Doug
 }
-print Kitten::info(); # ... but not here
+print Kitten::info(); # Joel owns Buttons, cared for by Joel
 ```
 
 ---
 
-## Local Example: Perl Magic Vars
+## Local Perl Magic Vars
 
-`$"` - the character printed between interpolated array items
+`$"`
+
+the character printed between interpolated array items
+
+---
+
+## Local Perl Magic Vars
 
 ```perl
 sub say_these { print "@_\n" }
@@ -532,4 +550,88 @@ sub strange_function {
 
 ---
 
+## Summary
+
+* packages are for finding things
+  - globals
+  - namespaces/packages
+  - our
+* scopes are for hiding things
+  - lexicals
+  - blocks
+  - my
+
+---
+
 # Questions?
+
+---
+
+## But Wait, There's More
+
+---
+
+### One More Variable Declaration
+
+```perl
+state $var
+```
+
+---
+
+### Function with a Counter
+
+```perl
+sub say_count {
+  my $count = 0;
+  printf "this has been called %i times\n", ++$count;
+}
+```
+
+<span class="fragment">
+Except of course that one doesn't work!
+</span>
+
+---
+
+### Function with a (Working) Counter
+
+```perl
+my $count = 0;
+sub say_count {
+  printf "this has been called %i times\n", ++$count;
+}
+```
+
+<span class="fragment">
+Except of course that one isn't safe!
+</span>
+
+---
+
+### Function with a (Safe, Working) Counter
+
+```perl
+{
+  my $count = 0;
+  sub say_count {
+    printf "this has been called %i times\n", ++$count;
+  }
+}
+```
+<span class="fragment">
+Except of course that's a lot to type!
+</span>
+
+---
+
+
+### Function with a (Concise, Safe, Working) Counter
+
+```perl
+sub say_count {
+  state $count = 0;
+  printf "this has been called %i times\n", ++$count;
+}
+```
+
