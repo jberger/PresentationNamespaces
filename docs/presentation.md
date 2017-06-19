@@ -4,6 +4,16 @@
 
 ---
 
+## Thank You
+
+<a href="https://servercentral.com">
+  <img src="sclogo.svg" style="background: white;">
+</a>
+
+[servercentral.com](https://servercentral.com)
+
+---
+
 * I first gave this talk:
   - Chicago.pm on January 26, 2017
 * I last updated it:
