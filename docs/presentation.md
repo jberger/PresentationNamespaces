@@ -371,7 +371,7 @@ print Person::name() . ' owns ' . Kitten::name() . "\n";
   - Faster
 * Use globals for truly global behavior
   - System resources
-  - Functional behavior in non-OO libraries
+  - Procedural behavior in non-OO libraries
 
 ---
 
@@ -430,7 +430,7 @@ our $caretaker;
   my $name = 'Buttons';
   my $owner = 'Joel';
   $caretaker = $owner;
-  sub info { "$owner owns $name, cared for by $caretakter" }
+  sub info { "$owner owns $name, cared for by $caretaker" }
 }
 
 package main;
