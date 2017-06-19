@@ -409,7 +409,7 @@ A lexical alias to a package variable
   my $name = 'Buttons';
   my $owner = 'Joel';
   our $caretaker = $owner;
-  sub info { "$owner owns $name, cared for by $caretakter" }
+  sub info { "$owner owns $name, cared for by $caretaker" }
 }
 
 print Kitten::info(); # Joel owns Buttons, cared for by Joel
@@ -455,7 +455,7 @@ The `local` keyword sets a global
   my $name = 'Buttons';
   my $owner = 'Joel';
   our $caretaker = $owner;
-  sub info { "$owner owns $name, cared for by $caretakter" }
+  sub info { "$owner owns $name, cared for by $caretaker" }
 }
 
 {
